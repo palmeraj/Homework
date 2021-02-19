@@ -17,37 +17,29 @@ from typing import Dict
 from pathlib import Path
 import pandas as pd
 
+
 def read_file():
-    d = Path("/in_class/data/756874_system_power_20210207.csv")
+    d = Path("C:/OOP2021/PycharmProjects/homework/in_class/data/756874_system_power_20210207.csv")
     with open(d, "r") as fp:
         data = fp.readline()
     return data
 
 
 def read_file_pandas():
-    d = Path("/in_class/data/756874_system_power_20210207.csv")
+    d = Path("C:/OOP2021/PycharmProjects/homework/in_class/data/756874_system_power_20210207.csv")
     df = pd.read_csv(d)
-    #power = pd.read_csv("C:/OOP2021/PycharmProjects/homework/in_class/data/756874_system_power_20210207.csv", index_col=0, header=None,
-    # squeeze=True).to_dict()
-    print(power)
     return df
 
 
-power = pd.read_csv("/in_class/data/756874_system_power_20210207.csv", index_col=0, header=None, squeeze=True).to_dict()
+power = pd.read_csv("C:/OOP2021/PycharmProjects/homework/in_class/data/756874_system_power_20210207.csv", index_col=0, header=None, squeeze=True).to_dict()
 read_file()
 read_file_pandas()
 
+key_list = []
+for key in power:
+    key_list.append(key)
 
 def hourly_demand_summary() -> Dict[datetime, float]:
-    Dict[datetime, float]:
-    key_list = []
-    for key in power:
-        # print(key)
-        key_list.append(key)
-        # print(key_list)
-    # print(key_list[1])
-    # print(power[key_list[1]])
-
     n = 1
     m = 13
     hourly_dict = {}
@@ -85,15 +77,27 @@ def hourly_demand_summary() -> Dict[datetime, float]:
 
 
 def daily_demand_summary() -> Dict[datetime, float]:
-    Dict[datetime, float]:
-    key_list = []
-    for key in power:
-        # print(key)
-        key_list.append(key)
-        # print(key_list)
-    # print(key_list[1])
-    # print(power[key_list[1]])
+    n = 1
 
+    m = 288
+
+    daily_dict = {}
+
+    for key in power:
+
+        total = 0
+
+        for i in range(n, m):
+            total += float(power[key_list[i]])
+
+        daily_dict[key_list[i]] = total
+        n += 288
+        m += 288
+
+        if i >= 2015:
+            break
+
+    return daily_dict
     """
     This function will return an daily breakdown of the dataset.
     {
@@ -107,27 +111,49 @@ def daily_demand_summary() -> Dict[datetime, float]:
 
 
 def weekly_power_summary() -> float:
-    def weekly_power_summary() -> float:
-        key_list = []
-        for key in power:
-            key_list.append(key)
+    n = 1
+
+    m = 2017
+
+    for key in power:
+
+        total = 0
+
+        for i in range(n, m):
+            total += float(power[key_list[i]])
+
+        if i >= 2015:
+            break
+
+    return total
+
+
+"""
+    Summary of total power produced during the week
+    """
+
+def maximum_hourly_data() -> datetime:
+    total = 0
+    total_dict = {}
+    for key in power:
+        key_list.append(key)
         n = 1
-        m = 2017
+        m = 13
         for key in power:
             total = 0
             for i in range(n, m):
                 total += float(power[key_list[i]])
-            # print(total)
-            if i >= 2015:
+            key_list[i]
+            total_dict[key_list[i]] = total
+
+            n += 12
+            m += 12
+            if i >= 2016:
                 break
+        MaxKey = max(total_dict, key=total_dict.get)
+        final = total_dict[MaxKey]
+        return MaxKey
 
-    """
-    Summary of total power produced during the week
-    """
-    ...
-
-
-def maximum_hourly_data() -> datetime:
     """
     This function will return hour that produced the maximum total power.
     e.g. datetime(2020,2,1,12): 100
@@ -136,3 +162,8 @@ def maximum_hourly_data() -> datetime:
 
     """
     ...
+
+print(hourly_demand_summary())
+print(daily_demand_summary())
+print(weekly_power_summary())
+print(maximum_hourly_data())
