@@ -17,8 +17,6 @@ def list_of_multiples(num: int, length: Optional[int]) -> List[int]:
 def normalize(input_str) -> str:
     #for n in range(input_str):
         #if input_str.upper == input_str:
-
-
     pass
 
 
@@ -31,5 +29,3 @@ def cat_dog(num: int) -> str:
         print('CatDog')
     else:
         print(str(num))
-
-    pass
